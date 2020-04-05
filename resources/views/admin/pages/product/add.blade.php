@@ -27,7 +27,7 @@
             @endif
         <div class="row" style="margin: 5px">
             <div class="col-lg-12">
-                
+
                 <form role="form" action="admin/product/add" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
@@ -43,6 +43,9 @@
                         <label>Product Type</label>
                         <select class="form-control idProductType" name="idProductType">
                             <option selected disabled>Chọn loại sản phẩm</option>
+                            @foreach ($producttype as $pt)
+                            <option value="{{$pt->id}}">{{$pt->name}}</option>
+                            @endforeach
                         </select>
                     </div>
                     <fieldset class="form-group">
@@ -89,6 +92,6 @@
                 </form>
             </div>
         </div>
-    </div> 
+    </div>
 </div>
 @endsection

@@ -21,9 +21,11 @@ class CreateProductsTable extends Migration
             $table->string('image');
             $table->integer('quantity');
             $table->decimal('price');
-            $table->decimal('promotional');
+            $table->text('detail');
+            $table->integer('warranty');
+            $table->integer('promotional');
             $table->integer('idProductType');
-            $table->integer('status')->default(1);
+            $table->integer('status');
             $table->timestamps();
         });
     }

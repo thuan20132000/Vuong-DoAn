@@ -17,6 +17,7 @@ class ProductController extends Controller
     public function getList()
     {
         //
+
         $product = Product::with('productType')->paginate(5);
         return view(('admin.pages.product.list'),['product'=>$product]);
 
@@ -99,12 +100,12 @@ class ProductController extends Controller
             else {
                 return redirect('admin/product/add')->with('loi','Định dạng hình ảnh không hợp lệ');
             }
-            
+
         }
         else{
             return redirect('admin/product/add')->with('loi','Bạn chưa chọn hình ảnh');
         }
-        
+
     }
 
     /**
@@ -195,7 +196,7 @@ class ProductController extends Controller
             else {
                 return redirect('admin/product/edit/'.$id)->with('loi','Định dạng hình ảnh không hợp lệ');
             }
-            
+
         }
         else{
             return redirect('admin/product/edit/'.$id)->with('loi','Bạn chưa chọn hình ảnh');

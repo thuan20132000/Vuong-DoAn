@@ -19,6 +19,6 @@ class UsersTableSeeder extends Seeder
             'email'=>'tienvuong97@gmail.com',
             'password'=>Hash::make('123456'),
             'role'=>'1',
-        ])
+        ]);
     }
 }

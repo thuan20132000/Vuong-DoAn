@@ -43,7 +43,7 @@
                                         <del>{{number_format($iphone->price)}}</del>
                                         @else
                                         <span class="item_price">{{number_format($iphone->price)}}</span>
-                                        @endif 
+                                        @endif
                                     </div>
                                     <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
                                     <a href="{{asset('cart/add/'.$iphone->id)}}"><input type="button" name="button" value="Thêm vào giỏ hàng" class="button btn" /></a>
@@ -84,7 +84,7 @@
                                             @else
                                             <span class="item_price">{{number_format($ml->price)}}</span>
                                             @endif
-                                           
+
                                         </div>
                                         <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
                                         <a href="{{asset('cart/add/'.$ml->id)}}"><input type="button" name="button" value="Thêm vào giỏ hàng" class="button btn" /></a>
@@ -125,7 +125,7 @@
                                             @else
                                             <span class="item_price">{{number_format($tl->price)}}</span>
                                             @endif
-                                           
+
                                         </div>
                                         <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
                                         <a href="cart/add/{{$tl->id}}"><input type="button" name="button" value="Thêm vào giỏ hàng" class="button btn" /></a>
