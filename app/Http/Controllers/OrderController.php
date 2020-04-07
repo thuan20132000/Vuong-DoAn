@@ -25,11 +25,11 @@ class OrderController extends Controller
             if(!$this->checkStockOut($carts)){
                 return redirect()->back()->with("message","Hết sản phẩm trong kho");
             }
-
             $this->updateQuantityInStock($carts);
 
 
-
+            // author:thuan
+            // message : add code_order
             $monney = str_replace(',','',Cart::getTotal());
             $order = new Order();
             $order->idUser = Auth::user()->id;
@@ -42,8 +42,6 @@ class OrderController extends Controller
             $order->save();
 
             $tt = Order::orderBy('created_at', 'desc')->first();
-
-            //thuan created
 
 
             foreach($carts as $cart){
@@ -120,7 +118,6 @@ class OrderController extends Controller
 
                 if($quantityInStock <=0 ){
                     $check = false;
-
                 }
         }
 
