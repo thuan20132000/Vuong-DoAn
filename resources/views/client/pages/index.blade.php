@@ -30,6 +30,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 @if($iphone->promotional>0)
                                 <span class="product-sale-top">Sale</span>
                                 @endif
@@ -46,7 +47,16 @@
                                         @endif
                                     </div>
                                     <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
-                                    <a href="{{asset('cart/add/'.$iphone->id)}}"><input type="button" name="button" value="Thêm vào giỏ hàng" class="button btn" /></a>
+
+
+                                        @if ($iphone->quantity >0)
+                                            <a href="{{asset('cart/add/'.$iphone->id)}}"><input type="button" name="button" value="Thêm vào giỏ hàng" class="button btn" /></a>
+                                        @else
+                                            <input type="button" name="button" value="Sản Phẩm Hết Hàng" class="btn btn-danger" disabled />
+
+                                        @endif
+
+
                                     </div>
                                 </div>
                             </div>
@@ -87,7 +97,14 @@
 
                                         </div>
                                         <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
-                                        <a href="{{asset('cart/add/'.$ml->id)}}"><input type="button" name="button" value="Thêm vào giỏ hàng" class="button btn" /></a>
+
+
+                                                @if ($ml->quantity > 0)
+                                                <a href="{{asset('cart/add/'.$ml->id)}}"><input type="button" name="button" value="Thêm vào giỏ hàng" class="button btn" /></a>
+
+                                                @else
+                                                <input type="button" name="button" value="Sản Phẩm Hết Hàng" disabled class="btn btn-danger" />
+                                                @endif
                                         </div>
                                     </div>
                                 </div>
@@ -123,7 +140,7 @@
                                             <span class="item_price">{{number_format($tl->promotional)}}</span>
                                             <del>{{number_format($tl->price)}}</del>
                                             @else
-                                            <span class="item_price">{{number_format($tl->price)}}</span>
+                                            <span class="item_price">{{number_format($tl->quantity)}}</span>
                                             @endif
 
                                         </div>

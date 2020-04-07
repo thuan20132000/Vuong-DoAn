@@ -19,6 +19,7 @@ class HomeController extends Controller
         $category = Category::where('status', 1)->get();
         $producttype = ProductType::where('status', 1)->get();
         $cart = Cart::getContent();
+
         view()->share(['category' => $category, 'producttype' => $producttype,'cart'=>$cart]);
     }
     public function index()
@@ -27,6 +28,8 @@ class HomeController extends Controller
         $productdtip = Product::where('status', 1)->where('idProductType', 1)->get();
         $productml = Product::where('status', 1)->where('idProductType', 12)->get();
         $productall = Product::all();
+        // dd($producttl);
+
         return view('client.pages.index', ['productdtip' => $productdtip, 'productml' => $productml,'producttl'=>$producttl,'productall'=>$productall]);
     }
     public function getListProductType($id){
@@ -36,7 +39,7 @@ class HomeController extends Controller
     public function getProductDetail($slug){
         $product_detail = Product::where('slug',$slug)->first();
         return view('client.pages.product_detail',['product_detail'=>$product_detail]);
-        
+
     }
     public function getList(){
         $cart = Cart::getContent();

@@ -6,35 +6,61 @@ use Auth;
 use Cart;
 use App\Models\Order;
 use App\Models\OrderDetail;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
     public function postBuyy(Request $request){
-        $cart = Cart::getContent();
-        $monney = str_replace(',','',Cart::getTotal());
+
+            $carts = Cart::getContent();
+
+
+
+            // thuan created
+            if(!$this->checkQuanity($carts)){
+                return redirect()->back()->with("message","Lớn hơn số lượng sản phẩm còn lại trong kho.");
+            }
+            if(!$this->checkStockOut($carts)){
+                return redirect()->back()->with("message","Hết sản phẩm trong kho");
+            }
+
+            $this->updateQuantityInStock($carts);
+
+
+
+            $monney = str_replace(',','',Cart::getTotal());
             $order = new Order();
             $order->idUser = Auth::user()->id;
             $order->name = $request->name;
+            $order->code_order = "ORDER".random_int(10000,99999);
             $order->email = $request->email;
             $order->address = $request->address;
             $order->phone = $request->phone;
             $order->monney = $monney;
             $order->save();
+
             $tt = Order::orderBy('created_at', 'desc')->first();
-            foreach($cart as $cart){
+
+            //thuan created
+
+
+            foreach($carts as $cart){
                 $order_detail = new OrderDetail();
                 $order_detail->idOrder = $tt->id;
                 $order_detail->idProduct = $cart->id;
                 $order_detail->quantity = $cart->quantity;
                 $order_detail->price = $cart->price;
-                $qtyproduct = DB::table('product')->where('id',$cart->id)->select('quantity')->get();
-                $qty = (float)$qtyproduct - (float)$cart->quantity;
-                dd($qty);
+                $qtyproductInStock = DB::table('product')->where('id',$cart->id)->select('quantity')->get()[0]->quantity;
+
+                $qty = $qtyproductInStock - $cart->quantity;
+
+
                 $order_detail->save();
-                
             }
+
+
         $cart = Cart::clear();
         return redirect('checkout');
     }
@@ -62,6 +88,59 @@ class OrderController extends Controller
         $order_detail = OrderDetail::where('idOrder',$id)->get();
         return view('admin.pages.order.order_detail',['order_detail'=>$order_detail]);
     }
+
+
+    // author :thuantruong
+    // created at :  7 - 04 - 2020
+    public function checkQuanity($carts){
+
+        $check = true;
+
+        foreach($carts as $c){
+            $quantityInStock = DB::table('product')->where('id',$c->id)->select('quantity')->get()[0]->quantity;
+
+                if($c->quantity > $quantityInStock ){
+                    $check = false;
+
+                }
+        }
+
+        return $check;
+
+    }
+
+    // author :thuantruong
+    // created at :  7 - 04 - 2020
+    public function checkStockOut($carts){
+
+        $check = true;
+
+        foreach($carts as $c){
+            $quantityInStock = DB::table('product')->where('id',$c->id)->select('quantity')->get()[0]->quantity;
+
+                if($quantityInStock <=0 ){
+                    $check = false;
+
+                }
+        }
+
+        return $check;
+
+    }
+
+    // author :thuantruong
+    // created at :  7 - 04 - 2020
+    public function updateQuantityInStock($carts){
+
+        foreach($carts as $c){
+
+            $quantityInStock = Product::find($c->id)->quantity;
+
+            $product = Product::find($c->id)->update(['quantity'=>$quantityInStock - $c->quantity]);
+        }
+    }
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -129,6 +208,6 @@ class OrderController extends Controller
         //
     }
     public function postBuy(Request $request){
-        
+
     }
 }

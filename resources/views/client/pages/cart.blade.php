@@ -20,6 +20,7 @@
         </div>
     </div>
 </div>
+
 <div class="privacy py-sm-5 py-4">
     <div class="container py-xl-4 py-lg-2">
         <!-- tittle heading -->
@@ -27,11 +28,20 @@
             <span>G</span>iỏ hàng của {{Auth::user()->name}}
         </h3>
         <!-- //tittle heading -->
-   
+
         <div class="checkout-right">
             <h4 class="mb-sm-4 mb-3">Bạn có tổng cộng:
             <span>{{$cart->count()}} sản phẩm</span>
             </h4>
+
+            {{-- add mesage when occure errors --}}
+            @if(session()->has('message'))
+                <div class="alert alert-success">
+                    {{ session()->get('message') }}
+                </div>
+            @endif
+
+
             <div class="table-responsive">
                 <table class="timetable_sub">
                     <thead>
@@ -66,7 +76,7 @@
                             <td class="invert">{{number_format($value->price)}}</td>
                             <td class="invert">
                                 <div class="rem">
-                                <a href="delete/{{$value->id}}"><i class="fas fa-trash-alt fa-2x"></i></a> 
+                                <a href="delete/{{$value->id}}"><i class="fas fa-trash-alt fa-2x"></i></a>
                                 </div>
                             </td>
                         </tr>
